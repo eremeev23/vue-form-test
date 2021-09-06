@@ -1,7 +1,7 @@
 <template>
     <div class="form ">
         <div class="form__conteiner">
-        <form action="https://script.google.com/macros/s/AKfycbwT5P8_PkFBy_vM5bhb_b-GsxQv7__15YilhVuzruB-JcFa1XXAp3kFS5_Y8a2lqg3K5A/exec" @submit.prevent="" class="test">
+        <form action="" method="POST" @submit.prevent="" class="test">
             <!-- Block 1 -->
             <div class="block block-1" :class="{'filled': filled1}">
                 <div class="input">
@@ -171,6 +171,7 @@ export default {
             }
         },
         submitForm() {
+            const axios = require('axios').default;
             const button = document.querySelector('.btn');
             const form = document.querySelector('.form__conteiner');
             const blockOne = document.querySelector('.block-1');
@@ -196,12 +197,20 @@ export default {
             if (this.filled1 && this.filled2 && this.filled3 && this.filled4 && this.filled5){
                 form.classList.add('submited');
                 button.classList.add('done-btn');
+                button.innerText = 'Отправлено'
                 blockOne.classList.add('done');
                 blockTwo.classList.add('done');
                 blockThree.classList.add('done');
                 blockFour.classList.add('done');
                 blockFive.classList.add('done');
             }
+            axios.post('https://script.google.com/macros/s/AKfycbwT5P8_PkFBy_vM5bhb_b-GsxQv7__15YilhVuzruB-JcFa1XXAp3kFS5_Y8a2lqg3K5A/exec', this.formData)
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         }
     },
 }
@@ -460,6 +469,10 @@ export default {
 }
 .unfilled-block::after {
     background: #F40C53;
+}
+.done input:focus + .label .content-label,
+.done input:valid + .label .content-label {
+    color: #79ff0c;
 }
 .done::after, .done-btn {
     background: #79ff0c;
